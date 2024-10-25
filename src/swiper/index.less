@@ -1,0 +1,43 @@
+.wrap-swipper {
+  width: 100%;
+  position: relative;
+  user-select: none;
+  touch-action: pan-y;
+  .swiper {
+    will-change: transform;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .swiper-item {
+      height: 100%;
+      // width: 100%;
+      flex-shrink: 0;
+      display: flex;
+      transform: translateZ(0);
+    }
+  }
+  .item {
+    z-index: 20;
+    position: absolute;
+    right: 16px;
+    bottom: 56px;
+    left: auto;
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+  }
+}
