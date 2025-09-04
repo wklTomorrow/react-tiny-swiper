@@ -36,7 +36,13 @@ const Base = () => {
   return (
     <>
       <div className="wrap">
-        <Swiper<ListType> list={list} renderItem={renderItem} />
+        <Swiper<ListType>
+          clickItem={(s) => {
+            console.log(s);
+          }}
+          list={list}
+          renderItem={renderItem}
+        />
       </div>
     </>
   );

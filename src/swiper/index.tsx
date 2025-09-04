@@ -7,7 +7,7 @@ import React, {
   useImperativeHandle,
 } from "react";
 import "./index.less";
-import { useSwiper } from "./hook";
+import { isMobile, useSwiper } from "./hook";
 
 export type SwiperMethods = {
   swiperTo: (...args: any) => void;
@@ -26,6 +26,7 @@ export type SwiperProps<T> = {
   initial?: number;
   transitionDuration?: number;
   disabledLeftAndRight?: boolean;
+  clickItem?: (params: T) => void
   renderItem: (params: T, index: number) => ReactNode;
   triggerActive?: (params: number) => void;
   startTouch?: (...args: any[]) => void;
@@ -52,6 +53,7 @@ function Swiper<T>(
     endTouch,
     triggerMovedActive,
     scrollEnd,
+    clickItem,
   }: SwiperProps<T>,
   ref: ForwardedRef<SwiperMethods>
 ) {
@@ -71,6 +73,7 @@ function Swiper<T>(
       triggerActive,
       triggerMovedActive,
       scrollEnd,
+      clickItem,
     });
 
   useImperativeHandle(
@@ -129,12 +132,17 @@ function Swiper<T>(
           <div
             key={index}
             className={"swiper-item"}
-            onTouchStart={(e) => {
-              handleTouchStart(e, index);
-            }}
-            onMouseDown={(e) => {
-              handleTouchStart(e, index);
-            }}
+            {...(isMobile
+              ? {
+                  onTouchStart: (e) => {
+                    handleTouchStart(e, index);
+                  },
+                }
+              : {
+                  onMouseDown: (e) => {
+                    handleTouchStart(e, index);
+                  },
+                })}
             {...(infinite && list.length > 1 && scale
               ? {
                   "data-same": getDataSame(index),

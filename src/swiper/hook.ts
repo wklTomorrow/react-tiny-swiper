@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
-const isMobile = (() => {
+export const isMobile = (() => {
   const userAgent = navigator.userAgent || navigator.vendor;
   return /android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent);
 })();
@@ -27,6 +27,7 @@ export const useSwiper = <T>({
   triggerActive,
   triggerMovedActive,
   scrollEnd,
+  clickItem,
 }: {
   list: Array<T>;
   bounce?: number;
@@ -44,6 +45,7 @@ export const useSwiper = <T>({
   endTouch?: (...args: any[]) => void;
   triggerActive?: (params: number) => void;
   triggerMovedActive?: (params: number) => void;
+  clickItem?: (params: T) => void;
 }) => {
   const left = useRef<number>(0);
   const toucheEle = useRef<any>(null);
@@ -69,6 +71,7 @@ export const useSwiper = <T>({
   const childWidthRef = useRef(0);
   const isBounce = useRef(false);
   const clearedTimer = useRef(false);
+  const isMoved = useRef(false);
   const [_, _update] = useState(0);
   const [swiperList, setSwiperList] = useState<Array<T>>([]);
 
@@ -262,6 +265,7 @@ export const useSwiper = <T>({
       return;
     }
     clearTimer();
+    isMoved.current = false;
     clearedTimer.current = true;
     if (
       moving.current ||
@@ -269,7 +273,6 @@ export const useSwiper = <T>({
     ) {
       return;
     }
-    console.log(111);
     startTouchRef.current = true;
     moving.current = true;
     addEventlistener(e.target as Element);
@@ -286,6 +289,7 @@ export const useSwiper = <T>({
   };
 
   const touchmove = (e: Event) => {
+    isMoved.current = true;
     if (moving.current) {
       const X = isMobile
         ? (e as TouchEvent).targetTouches[0].pageX
@@ -384,6 +388,10 @@ export const useSwiper = <T>({
     if (!moving.current) {
       return;
     }
+    if (!isMoved.current) {
+      clickItem?.(list[activeIndex.current]);
+    }
+    isMoved.current = false;
 
     if (wrapEle.current) {
       if (getBouncePostion() && !infinite) {

@@ -40,6 +40,7 @@ const Base2 = () => {
         renderItem={renderItem}
         infinite
         initial={1}
+        autoPlay
       />
     </div>
   );
