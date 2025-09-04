@@ -19,6 +19,7 @@ export type SwiperProps<T> = {
   list: Array<T>;
   autoPlay?: boolean;
   autoPlayDuration?: number;
+  autoPlayTouchStop?: boolean;
   infinite?: boolean;
   showPage?: boolean;
   scale?: number;
@@ -39,6 +40,7 @@ function Swiper<T>(
   {
     list = [],
     autoPlay = false,
+    autoPlayTouchStop = false,
     autoPlayDuration = 3000,
     infinite = false,
     showPage = false,
@@ -62,6 +64,7 @@ function Swiper<T>(
       list,
       autoPlay,
       autoPlayDuration,
+      autoPlayTouchStop,
       infinite,
       scale,
       fullContent,

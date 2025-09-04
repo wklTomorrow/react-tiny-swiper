@@ -16,6 +16,7 @@ export const useSwiper = <T>({
   endBounce = 0.3,
   autoPlay = false,
   autoPlayDuration = 3000,
+  autoPlayTouchStop = false,
   infinite = false,
   scale = 0,
   fullContent = false,
@@ -34,6 +35,7 @@ export const useSwiper = <T>({
   endBounce?: number;
   autoPlay?: boolean;
   autoPlayDuration?: number;
+  autoPlayTouchStop?: boolean;
   infinite?: boolean;
   scale?: number; // 是否缩放，缩放比例请用小数点
   fullContent?: boolean;
@@ -266,7 +268,9 @@ export const useSwiper = <T>({
     }
     clearTimer();
     isMoved.current = false;
-    clearedTimer.current = true;
+    if (autoPlayTouchStop) {
+      clearedTimer.current = true;
+    }
     if (
       moving.current ||
       (isMobile && (e as React.TouchEvent).touches.length > 1)
